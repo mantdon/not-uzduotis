@@ -18,4 +18,12 @@ class GeocodeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Geocode::class);
     }
+
+    public function getCount()
+    {
+        return $this->createQueryBuilder('g')
+                    ->select('count(g.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+    }
 }
