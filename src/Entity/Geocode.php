@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Util\Coordinates;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +12,6 @@ class Geocode
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -39,6 +39,12 @@ class Geocode
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getBrewery(): Brewery
@@ -87,5 +93,10 @@ class Geocode
         $this->accuracy = $accuracy;
 
         return $this;
+    }
+
+    public function getCoordinates(): Coordinates
+    {
+        return new Coordinates($this->latitude, $this->longitude);
     }
 }
