@@ -43,51 +43,18 @@ class CSVLoader
     }
 
     /**
-     * Sets the AUTO_INCREMENT for the table, associated with
-     * the specified class, to 0.
-     * @param string $className
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    private function resetAutoIncrementID(string $className): void
-    {
-        switch ($className) {
-            case 'App:Beer':
-                $query = 'ALTER TABLE `beer` AUTO_INCREMENT = 0';
-                break;
-            case 'App:Brewery':
-                $query = 'ALTER TABLE `brewery` AUTO_INCREMENT = 0';
-                break;
-            case 'App:Category':
-                $query = 'ALTER TABLE `category` AUTO_INCREMENT = 0';
-                break;
-            case 'App:Geocode':
-                $query = 'ALTER TABLE `geocode` AUTO_INCREMENT = 0';
-                break;
-            case 'App:Style':
-                $query = 'ALTER TABLE `style` AUTO_INCREMENT = 0';
-                break;
-            default:
-                $query = NULL;
-        }
-
-        if($query !== NULL) {
-            $this->em->getConnection()->exec($query);
-        }
-    }
-
-    /**
      * @return CSVLoader
      * @throws Exception
      * @throws \Doctrine\DBAL\DBALException
      */
     public function loadCategories(): self
     {
-        $this->resetAutoIncrementID('App:Category');
         $results = $this->readCsv('App:Category');
         foreach ($results as $result) {
             if (!$this->existsInDatabase('App:Category', $result['id'])) {
                 $category = new Category();
-                $category->setName($result['cat_name'])
+                $category->setId($result['id'])
+                         ->setName($result['cat_name'])
                          ->setLastModification(new \DateTime($result['last_mod']));
                 $this->em->persist($category);
             }
@@ -103,14 +70,14 @@ class CSVLoader
      */
     public function loadStyles(): self
     {
-        $this->resetAutoIncrementID('App:Style');
         $results = $this->readCsv('App:Style');
         foreach ($results as $result) {
             if (!$this->existsInDatabase('App:Style', $result['id'])) {
                 $category = $this->em->getRepository('App:Category')
                                      ->find($result['cat_id']);
                 $style = new Style();
-                $style->setName($result['style_name'])
+                $style->setId($result['id'])
+                      ->setName($result['style_name'])
                       ->setLastModification(new \DateTime($result['last_mod']));
                 $category->addStyle($style);
                 $this->em->persist($style);
@@ -127,12 +94,12 @@ class CSVLoader
      */
     public function loadBreweries(): self
     {
-        $this->resetAutoIncrementID('App:Brewery');
         $results = $this->readCsv('App:Brewery');
         foreach ($results as $result) {
             if (!$this->existsInDatabase('App:Brewery', $result['id'])) {
                 $brewery = new Brewery();
-                $brewery->setName($result['name'])
+                $brewery->setId($result['id'])
+                        ->setName($result['name'])
                         ->setAddress1($result['address1'])
                         ->setAddress2($result['address2'])
                         ->setCity($result['city'])
@@ -157,17 +124,19 @@ class CSVLoader
      */
     public function loadGeocodes(): self
     {
-        $this->resetAutoIncrementID('App:Geocode');
         $results = $this->readCsv('App:Geocode');
         foreach ($results as $result) {
             if (!$this->existsInDatabase('App:Geocode', $result['id'])) {
                 $geocode = new Geocode();
-                $geocode->setLatitude($result['latitude'])
+                $geocode->setId($result['id'])
+                        ->setLatitude($result['latitude'])
                         ->setLongitude($result['longitude'])
                         ->setAccuracy($result['accuracy']);
                 $brewery = $this->em->getRepository('App:Brewery')
                                     ->find($result['brewery_id']);
-                $brewery->addGeocode($geocode);
+                if($brewery !== NULL) {
+                    $brewery->addGeocode($geocode);
+                }
                 $this->em->persist($geocode);
             }
         }
@@ -182,12 +151,12 @@ class CSVLoader
      */
     public function loadBeers(): self
     {
-        $this->resetAutoIncrementID('App:Beer');
         $results = $this->readCsv('App:Beer');
         foreach ($results as $result) {
             if (!$this->existsInDatabase('App:Beer', $result['id'])) {
                 $beer = new Beer();
-                $beer->setName($result['name'])
+                $beer->setId($result['id'])
+                     ->setName($result['name'])
                      ->setABV($result['abv'])
                      ->setIBU($result['ibu'])
                      ->setSRM($result['srm'])

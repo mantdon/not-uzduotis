@@ -11,15 +11,10 @@ use App\Util\CSVLoader;
 
 class ImportCSVCommand extends Command
 {
-    /**
-     * @var CSVLoader
-     */
     private $csvLoader;
 
     /**
-     * ImportCSVCommand constructor.
      * @param CSVLoader $csvLoader
-     * @throws \Symfony\Component\Console\Exception\LogicException
      */
     public function __construct(CSVLoader $csvLoader)
     {
@@ -32,8 +27,9 @@ class ImportCSVCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('csv:import')
-             ->setDescription('Imports beers, breweries, categories, geocodes and styles .csv into the database');
+        $this
+            ->setName('app:csv:import')
+            ->setDescription('Imports beers, breweries, categories, geocodes and styles .csv into the database');
     }
 
     /**

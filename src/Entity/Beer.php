@@ -11,7 +11,6 @@ class Beer
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -69,6 +68,12 @@ class Beer
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getBrewery(): Brewery
@@ -187,5 +192,10 @@ class Beer
         $this->lastModification = $LastModification;
 
         return $this;
+    }
+
+    public function hasStyle(): bool
+    {
+        return $this->style !== null;
     }
 }
