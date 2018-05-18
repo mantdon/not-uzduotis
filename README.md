@@ -50,3 +50,5 @@ the next location will always be *min_value(distances[x])*.
 ##### Brewery with most beer mode
 the beer types will be checked in locations up to `--distdelta` away from the closest location *min_value(distances[x])*,
 location with most (uncollected) beer types will then be chosen as the next location.
+### Execution examples
+![Alt text](/execution_examples/mode-clst.PNG?raw=true "Closest brewery")
