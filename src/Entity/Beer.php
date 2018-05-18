@@ -193,4 +193,9 @@ class Beer
 
         return $this;
     }
+
+    public function hasStyle(): bool
+    {
+        return $this->style !== null;
+    }
 }
