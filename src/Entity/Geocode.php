@@ -99,4 +99,9 @@ class Geocode
     {
         return new Coordinates($this->latitude, $this->longitude);
     }
+
+    public function hasBrewery(): bool
+    {
+        return $this->brewery !== null;
+    }
 }
