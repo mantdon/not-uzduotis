@@ -24,7 +24,7 @@
 
 ## Executing the program
 After the project has been setup, the program can be executed using the `php bin/console app:run` command.
-#### Options
+### Options
 Options are provided in the following format: `[--fullname, -shortname]` - effect - `(default_value)`  | `[valid,values]`(if a value is accepted)
 * `[--lat, -l]` - the latitude coordinate (in degrees) of the starting location - `(51.355468)` | `[0 <= val <= 90]`
 * `[--lon, -L]` - the longitude coordinate (in degrees) of the starting location - `(11.10079)` | `[0 <= val <= 180]`
@@ -34,24 +34,24 @@ Options are provided in the following format: `[--fullname, -shortname]` - effec
  picking another location if it has more uncollected beer types. - `(90)` | `[val > 0]`
 * `[--srchrad, -r]` - The radius (in degrees) to look for potential next location in. - `(5)` | `[0 <= val <= 90]`
 * `[--printbeers, -p]` - prints the names of all beers collected during the trip.
-* `[--printstyles, -P]` - prints the styles of all beers collected during the trip.\
+* `[--printstyles, -P]` - prints the styles of all beers collected during the trip.
 
 If any of the options is not specified default value will be used for it.
-#### Next location selection modes
+### Next location selection modes
 The program has 2 modes of next location selection:
 * `--mode clst` - Closest Brewery
-* `--mode mstb` - Brewery with most beer types(names)\
+* `--mode mstb` - Brewery with most beer types(names)
 
 Given that the program is at location *x* and there are 7 locations that were found withing the `--srchrad` 
 and distances to these locations from *x* are stored in an array *distances[x][]*, where *distances[x][]* 
 is an array mapped by *[next_location_id => distance_to_it_from_x]* then...
-##### Closest brewery mode 
+#### Closest brewery mode 
 the next location will always be *min_value(distances[x])*.
-##### Brewery with most beer mode
+#### Brewery with most beer mode
 the beer types will be checked in locations up to `--distdelta` away from the closest location *min_value(distances[x])*,
 location with most (uncollected) beer types will then be chosen as the next location.
 ### Execution examples
-##### Closest brewery mode
+#### Closest brewery mode
 ![Alt text](/execution_examples/mode-clst.PNG?raw=true "Closest brewery")
-##### Brewery with most beer mode
+#### Brewery with most beer mode
 ![Alt text](/execution_examples/mode-mstb.PNG?raw=true "Most beer")
